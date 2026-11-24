@@ -1,0 +1,20 @@
+# Files Git should never upload to GitHub
+
+# Downloaded FRED data (re-created on every run)
+pipeline/cache/
+
+# Python's compiled files and virtual environments
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Build folder the workflow creates
+_site/
+
+# Anything holding secrets
+.env
+*.key
+
+# Earlier versions of the site, kept on this computer only
+_old_site/

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page: its title, fonts, styles and scripts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How it works · Retirement Signal</title>
+  <meta name="description" content="How the Retirement Signal works, in plain English: the four options, the two warning signs, and a month-by-month look at 2008.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233987e5%27/%3E%3Cpath d=%27M7 22l6-6 4 4 8-9%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
+  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
+  <!-- "defer" = download now, run once the page is ready, in this order: chart library, helpers, this page. -->
+  <script defer src="assets/vendor/chart.umd.js?v=4.4.1"></script>
+  <script defer src="assets/common.js?v=94b6d9b3"></script>
+  <script defer src="assets/framework.js?v=94b6d9b3"></script>
+</head>
+<body data-page="framework" data-charts="yes">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l5-5 4 4 7-8"/></svg></span><span class="brand-name">Retirement Signal</span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="framework.html">How it works</a>
+        <a class="link" href="signal.html">Signal now</a>
+        <a class="link" href="learn.html">Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- A slim strip under the menu that says where things stand right now. common.js fills it in from data/signal.json. -->
+  <a class="statusbar" id="statusbar" href="signal.html" hidden>
+    <span class="wrap">
+      <span class="sb-dot" aria-hidden="true"></span>
+      <strong id="sb-state"></strong>
+      <span class="sb-detail" id="sb-detail"></span>
+      <span class="sb-note" id="sb-note"></span>
+      <span class="sb-more">See the signal →</span>
+    </span>
+  </a>
+
+  <main>
+    <header class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">How it works</p>
+        <h1>Two warning signs, one check a month</h1>
+        <p class="lead">The signal doesn't try to predict the market. It says stay invested until two independent warning signs agree, then step aside until prices recover. Here is what each piece means.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The options</p><h2>Four ways to use the signal</h2><p class="intro">Every option holds low-cost index funds and follows the same signal on the same dates. They differ in which funds they hold and in how much they sell when the signal says to step aside.</p></header>
+        <div class="cards cols-3">
+          <div class="card"><h3>An S&amp;P 500 fund</h3><p>Owns the 500 largest US companies in one purchase: Apple, Microsoft, Amazon, banks, retailers, healthcare and more.</p></div>
+          <div class="card"><h3>A Nasdaq-100 fund</h3><p>Owns the 100 largest companies on the Nasdaq exchange, mostly technology. It has grown faster than the S&amp;P 500, with bigger swings.</p></div>
+          <div class="card"><h3>Treasuries and T-bills</h3><p>Loans to the US government, which pays interest. Where money waits safely after a sell signal.</p></div>
+        </div>
+        <div class="panel allocs options">
+          <div class="opt">
+            <h3 class="opt-name">100% Nasdaq-100</h3>
+            <div class="alloc"><div class="alloc-name">Invested</div><div class="bar" role="img" aria-label="100% Nasdaq-100"><div class="seg s-ndx" style="flex:100">Nasdaq-100 · 100%</div></div></div>
+            <div class="alloc"><div class="alloc-name">Stepped aside · sells all of it</div><div class="bar" role="img" aria-label="50% Treasuries, 50% T-bills"><div class="seg s-safe" style="flex:50">Treasuries · 50%</div><div class="seg s-bills" style="flex:50">T-bills · 50%</div></div></div>
+          </div>
+          <div class="opt">
+            <h3 class="opt-name">100% S&amp;P 500</h3>
+            <div class="alloc"><div class="alloc-name">Invested</div><div class="bar" role="img" aria-label="100% S&amp;P 500"><div class="seg s-sp" style="flex:100">S&amp;P 500 · 100%</div></div></div>
+            <div class="alloc"><div class="alloc-name">Stepped aside · sells all of it</div><div class="bar" role="img" aria-label="50% Treasuries, 50% T-bills"><div class="seg s-safe" style="flex:50">Treasuries · 50%</div><div class="seg s-bills" style="flex:50">T-bills · 50%</div></div></div>
+          </div>
+          <div class="opt">
+            <h3 class="opt-name">70/30 mix</h3>
+            <div class="alloc"><div class="alloc-name">Invested</div><div class="bar" role="img" aria-label="70% S&amp;P 500, 30% Nasdaq-100"><div class="seg s-sp" style="flex:70">S&amp;P 500 · 70%</div><div class="seg s-ndx" style="flex:30">Nasdaq-100 · 30%</div></div></div>
+            <div class="alloc"><div class="alloc-name">Stepped aside · sells all the Nasdaq-100 and half the S&amp;P 500</div><div class="bar" role="img" aria-label="35% S&amp;P 500, 32.5% Treasuries, 32.5% T-bills"><div class="seg s-sp" style="flex:35">S&amp;P 500 · 35%</div><div class="seg s-safe" style="flex:32.5">Treasuries · 32.5%</div><div class="seg s-bills" style="flex:32.5">T-bills · 32.5%</div></div></div>
+          </div>
+          <div class="opt">
+            <h3 class="opt-name">S&amp;P 500, sells half</h3>
+            <div class="alloc"><div class="alloc-name">Invested</div><div class="bar" role="img" aria-label="100% S&amp;P 500"><div class="seg s-sp" style="flex:100">S&amp;P 500 · 100%</div></div></div>
+            <div class="alloc"><div class="alloc-name">Stepped aside · sells half</div><div class="bar" role="img" aria-label="50% S&amp;P 500, 25% Treasuries, 25% T-bills"><div class="seg s-sp" style="flex:50">S&amp;P 500 · 50%</div><div class="seg s-safe" style="flex:25">Treasuries · 25%</div><div class="seg s-bills" style="flex:25">T-bills · 25%</div></div></div>
+          </div>
+          <p class="fine">"Stepped aside" means something different for each option, so compare them with that in mind. Whatever is sold always goes half into Treasuries and half into T-bills.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">Warning sign 1</p><h2>The stock market's trend turns down</h2></header>
+        <div class="split">
+          <div class="prose">
+            <p>At the end of every month, take the S&amp;P 500's closing level for each of the last 10 months and average them. That average moves slowly, so it shows the direction prices have been heading.</p>
+            <p>When the month closes <strong>below</strong> that average, prices have been falling long enough to matter. That is a broken trend.</p>
+            <p class="callout">On its own, this sign gives too many false alarms: markets dip below their average fairly often and then bounce right back. So it needs a second witness.</p>
+          </div>
+          <figure class="figure">
+            <svg viewBox="0 0 680 290" role="img" aria-label="Illustration: prices fall below their 10-month average, then later climb back above it">
+              <rect x="303.1" y="30" width="214.3" height="220" style="fill: var(--c-band)"/>
+              <line x1="40" y1="250" x2="640" y2="250" style="stroke: var(--c-axis)" stroke-width="1"/>
+              <path d="M40.0 167.7 L54.3 162.1 L68.6 156.6 L82.9 151.0 L97.1 146.4 L111.4 139.8 L125.7 134.7 L140.0 128.6 L154.3 123.8 L168.6 118.4 L182.9 112.2 L197.1 107.0 L211.4 100.8 L225.7 96.4 L240.0 91.0 L254.3 86.9 L268.6 83.3 L282.9 80.4 L297.1 80.4 L311.4 80.3 L325.7 83.3 L340.0 86.7 L354.3 93.4 L368.6 101.3 L382.9 109.7 L397.1 119.7 L411.4 129.6 L425.7 142.6 L440.0 154.0 L454.3 166.1 L468.6 175.4 L482.9 182.8 L497.1 189.4 L511.4 192.4 L525.7 194.5 L540.0 192.9 L554.3 190.9 L568.6 186.4 L582.9 179.6 L597.1 171.1 L611.4 161.3 L625.7 153.5 L640.0 144.3" fill="none" style="stroke: var(--c-sp)" stroke-width="2.5" stroke-dasharray="6 5" stroke-linecap="round"/>
+              <path d="M40.0 148.4 L54.3 132.4 L68.6 127.0 L82.9 120.5 L97.1 133.9 L111.4 115.5 L125.7 107.9 L140.0 95.2 L154.3 98.3 L168.6 104.7 L182.9 86.3 L197.1 80.9 L211.4 64.6 L225.7 77.1 L240.0 79.4 L254.3 74.9 L268.6 71.2 L282.9 66.6 L297.1 98.5 L311.4 103.8 L325.7 116.2 L340.0 114.6 L354.3 131.2 L368.6 156.7 L382.9 162.8 L397.1 175.2 L411.4 170.1 L425.7 196.6 L440.0 212.3 L454.3 225.1 L468.6 209.4 L482.9 188.9 L497.1 197.1 L511.4 186.6 L525.7 184.3 L540.0 159.1 L554.3 149.7 L568.6 152.1 L582.9 144.1 L597.1 140.0 L611.4 110.8 L625.7 111.0 L640.0 105.2" fill="none" style="stroke: var(--c-plan)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+              <circle cx="297.1" cy="98.5" r="6" style="fill: var(--bad); stroke: var(--c-surface)" stroke-width="2"/>
+              <circle cx="511.4" cy="186.6" r="6" style="fill: var(--good); stroke: var(--c-surface)" stroke-width="2"/>
+              <text x="287.1" y="132.5" text-anchor="end" style="fill: var(--c-ink); font: 600 13px var(--font-ui)">Closes below the average</text>
+              <text x="287.1" y="150.5" text-anchor="end" style="fill: var(--c-ink-2); font: 12px var(--font-ui)">trend broken</text>
+              <text x="523.4" y="216.6" style="fill: var(--c-ink); font: 600 13px var(--font-ui)">Closes back above</text>
+              <text x="523.4" y="234.6" style="fill: var(--c-ink-2); font: 12px var(--font-ui)">trend recovered</text>
+              <text x="410.3" y="22" text-anchor="middle" style="fill: var(--c-ink-2); font: 600 12px var(--font-ui)">Trend down</text>
+              <g style="font: 12px var(--font-ui); fill: var(--c-ink-2)">
+                <line x1="40" y1="276" x2="62" y2="276" style="stroke: var(--c-plan)" stroke-width="2.5"/><text x="68" y="280">S&amp;P 500 month-end close</text>
+                <line x1="240" y1="276" x2="262" y2="276" style="stroke: var(--c-sp)" stroke-width="2.5" stroke-dasharray="6 5"/><text x="268" y="280">Average of the last 10 month-end closes</text>
+              </g>
+            </svg>
+            <figcaption>An illustration, not real prices. The real check uses actual month-end S&amp;P 500 closes.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">Warning sign 2</p><h2>The bond market flashes a recession warning</h2></header>
+        <div class="split">
+          <div class="prose">
+            <p>The US government borrows money for different lengths of time, from a few months to 30 years. Normally it pays a higher interest rate to borrow for longer, the way a 5-year CD usually pays more than a 3-month one.</p>
+            <p>Sometimes that flips: short-term rates rise above long-term rates. This is called an <a class="term" href="learn.html#inverted">inverted yield curve</a>. It usually means investors expect the economy to weaken and interest rates to fall.</p>
+            <p>The signal compares the 10-year Treasury rate with the 3-month T-bill rate. The first month the 3-month rate is higher, the recession warning turns on, and it <strong>stays on for 24 months from that start</strong>, however long the rates stay flipped. A new 24-month clock starts only if rates go back to normal for at least six months and then flip again.</p>
+          </div>
+          <figure class="figure">
+            <svg viewBox="0 0 680 250" role="img" aria-label="Illustration: a normal yield curve slopes up; an inverted one slopes down">
+              <g style="font: 12px var(--font-ui); fill: var(--c-ink-2)">
+                <text x="70" y="24" style="fill: var(--c-ink); font: 650 14px var(--font-ui)">Normal</text>
+                <text x="70" y="42">Longer loans pay more</text>
+                <text x="410" y="24" style="fill: var(--c-ink); font: 650 14px var(--font-ui)">Inverted</text>
+                <text x="410" y="42">Short-term loans pay more: a warning</text>
+                <line x1="70" y1="196" x2="300" y2="196" style="stroke: var(--c-axis)"/>
+                <line x1="410" y1="196" x2="640" y2="196" style="stroke: var(--c-axis)"/>
+                <line x1="70" y1="60" x2="70" y2="196" style="stroke: var(--c-axis)"/>
+                <line x1="410" y1="60" x2="410" y2="196" style="stroke: var(--c-axis)"/>
+                <text x="62" y="70" text-anchor="end">Higher</text><text x="62" y="192" text-anchor="end">Lower</text>
+                <text x="402" y="70" text-anchor="end">Higher</text><text x="402" y="192" text-anchor="end">Lower</text>
+                <text x="70" y="214" text-anchor="middle">3 mo</text><text x="146.7" y="214" text-anchor="middle">2 yr</text><text x="223.3" y="214" text-anchor="middle">5 yr</text><text x="300" y="214" text-anchor="middle">10 yr</text>
+                <text x="410" y="214" text-anchor="middle">3 mo</text><text x="486.7" y="214" text-anchor="middle">2 yr</text><text x="563.3" y="214" text-anchor="middle">5 yr</text><text x="640" y="214" text-anchor="middle">10 yr</text>
+                <text x="185" y="240" text-anchor="middle">How long the government borrows for</text>
+                <text x="525" y="240" text-anchor="middle">How long the government borrows for</text>
+              </g>
+              <polyline points="70,172.5 146.7,137.5 223.3,116.5 300,102.5" fill="none" style="stroke: var(--c-plan)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <polyline points="410,60.5 486.7,81.5 563.3,92 640,102.5" fill="none" style="stroke: var(--c-neg)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <g style="stroke: var(--c-surface)" stroke-width="2">
+                <circle cx="70" cy="172.5" r="5" style="fill: var(--c-plan)"/><circle cx="300" cy="102.5" r="5" style="fill: var(--c-plan)"/>
+                <circle cx="410" cy="60.5" r="5" style="fill: var(--c-neg)"/><circle cx="640" cy="102.5" r="5" style="fill: var(--c-neg)"/>
+              </g>
+            </svg>
+            <figcaption>An illustration of the two shapes. The signal only uses the end points: 3 months and 10 years.</figcaption>
+          </figure>
+        </div>
+        <div class="panel chart-card">
+          <p class="fig-label">The real record · 10-year rate minus 3-month rate since 1968, in percentage points</p>
+          <div class="legend-static">
+            <span><i class="key-box k-pos"></i>Normal (above zero)</span>
+            <span><i class="key-box k-neg"></i>Inverted (below zero)</span>
+            <span><i class="key-box"></i>US recession</span>
+          </div>
+          <div class="chart-box mid"><canvas id="curve-chart" role="img" aria-label="Yield curve since 1968 with US recessions shaded"></canvas></div>
+          <p class="chart-note">On these monthly numbers the curve inverted before every recession since 1968 except 1990, and each of those recessions began 6 to 17 months after the inversion started. That is why the warning runs for 24 months from the start. It isn't perfect, either: it has inverted without a recession following quickly, which is why it never triggers a sale on its own.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The rules</p><h2>Putting it together</h2><p class="intro">At each month-end there are only three possible outcomes. Any trade happens on the next trading day, then nothing changes until the next month-end.</p></header>
+        <div class="cards cols-3">
+          <div class="card rule go"><p class="rule-when">Most months</p><h3>Stay invested</h3><p>If either warning sign is off, do nothing. Every option stays fully invested.</p></div>
+          <div class="card rule stop"><p class="rule-when">Both signs on</p><h3>Step aside</h3><p>The S&amp;P 500 closes below its 10-month average <em>and</em> the recession warning is on: each option sells its set amount: all of it, part of it or half. That money goes half into Treasuries, half into T-bills.</p></div>
+          <div class="card rule wait"><p class="rule-when">While stepped aside</p><h3>Get back in when the trend recovers</h3><p>As soon as the S&amp;P 500 closes a month back above its 10-month average, buy back to fully invested, even if the news still looks bad.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">A real example</p><h2>2008, month by month</h2><p class="intro">The 2008 financial crisis was the deepest bear market in decades. Here is what the two signs said along the way, using the same month-end data as the rest of the site.</p></header>
+        <div class="split even">
+          <div class="panel chart-card">
+            <div class="legend-static">
+              <span><i class="key-line" style="background:var(--c-plan)"></i>S&amp;P 500 month-end close</span>
+              <span><i class="key-line dashed"></i>10-month average</span>
+              <span><i class="key-box"></i>Stepped aside</span>
+            </div>
+            <div class="chart-box mid"><canvas id="story-chart" role="img" aria-label="S&amp;P 500 and its 10-month average, 2006 to 2010"></canvas></div>
+          </div>
+          <div class="panel"><ol class="timeline" id="story"></ol></div>
+        </div>
+        <p class="reading" id="story-result"></p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The reasoning</p><h2>Why it's built this way</h2></header>
+        <div class="cards cols-3">
+          <div class="card"><h3>Why wait for prices to confirm</h3><p>Signals that tried to sell before prices turned (high valuations, rising unemployment, the yield curve alone) lost money or at best broke even in testing. Waiting for the trend to break was the key ingredient.</p></div>
+          <div class="card"><h3>Why the Nasdaq-100 is sold completely</h3><p>Nothing caught the 2000 tech peak, but the trend break got out early in the crash, before most of the Nasdaq’s fall. In testing, a 100% Nasdaq-100 option that sold only half had a worst drop of 58%, against 34% when it sold everything.</p></div>
+          <div class="card"><h3>All out or partly out</h3><p>Options that sell everything grew faster in testing, because they avoided more of the deep bear markets. But each false alarm cost them about twice as much as an option that keeps some stocks. That is the main trade-off between the options.</p></div>
+          <div class="card"><h3>Why Treasuries and T-bills</h3><p>Treasuries usually rise in value during recessions, adding to the protection. T-bills cover the opposite case, when interest rates jump, as in 2022.</p></div>
+          <div class="card"><h3>Why 10 months and 24 months</h3><p>The exact numbers aren't magic. Averages from 8 to 12 months gave similar results. A warning clock anywhere from 20 to 30 months caught every major decline since 1968; shorter clocks missed one.</p></div>
+          <div class="card"><h3>Why only once a month</h3><p>Checking more often caused more false alarms and more trades, without better results. Mid-month swings are ignored on purpose.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The limits</p><h2>What it won't do</h2></header>
+        <ul class="limits">
+          <li><strong>Protect against every drop.</strong> Fast crashes and bear markets without a recession get little or no protection: 1987, 2020 and 2022 among them.</li>
+          <li><strong>Avoid small losses.</strong> At least half the sales are false alarms that end with buying back a little higher. That is the price of being out for the big ones.</li>
+          <li><strong>Beat the market in calm years.</strong> From 2010 to 2026 the signal produced only false alarms, and every option trailed simply holding its own funds.</li>
+          <li><strong>Promise the future.</strong> Most of the benefit comes from about six recession bear markets since 1968. That is a small sample, and the future may not look like the past.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The test bench</p><h2>Ideas tested and rejected</h2><p class="intro">Before settling on these rules, many alternatives were tested on the same history. These didn't make the cut.</p></header>
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Idea</th><th>What happened in testing</th></tr></thead>
+            <tbody>
+              <tr><td>Sell when stocks look expensive (valuations in their top 20%)</td><td>1.4% a year worse than buy-and-hold</td></tr>
+              <tr><td>Sell when credit markets show stress</td><td>1.2% a year worse</td></tr>
+              <tr><td>Sell when unemployment starts rising</td><td>0.9% a year worse; it fires too late</td></tr>
+              <tr><td>Sell on the yield-curve warning alone</td><td>About even overall, but far behind while out in 2019–21 and 2022–25</td></tr>
+              <tr><td>Buy back faster (2- to 6-month average)</td><td>Deeper drops, no extra return</td></tr>
+              <tr><td>Trade the Nasdaq slice on "overbought/oversold" signals (32 versions)</td><td>None beat simply holding it</td></tr>
+              <tr><td>Keep 5–8% in gold at all times</td><td>Slightly lower return, slightly smaller drops; not worth the extra piece</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="actions"><a class="btn primary" href="signal.html">See this month's signal →</a> <a class="btn" href="learn.html">Glossary and common questions</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+
+      <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
+    </div>
+  </footer>
+</body>
+</html>

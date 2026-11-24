@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page: its title, fonts, styles and scripts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learn · Retirement Signal</title>
+  <meta name="description" content="Plain-English answers and a glossary for the Retirement Signal.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233987e5%27/%3E%3Cpath d=%27M7 22l6-6 4 4 8-9%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
+  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
+  <script defer src="assets/common.js?v=94b6d9b3"></script>
+  <script defer src="assets/learn.js?v=94b6d9b3"></script>
+</head>
+<body data-page="learn" data-charts="no">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l5-5 4 4 7-8"/></svg></span><span class="brand-name">Retirement Signal</span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="framework.html">How it works</a>
+        <a class="link" href="signal.html">Signal now</a>
+        <a class="link" href="learn.html">Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- A slim strip under the menu that says where things stand right now. common.js fills it in from data/signal.json. -->
+  <a class="statusbar" id="statusbar" href="signal.html" hidden>
+    <span class="wrap">
+      <span class="sb-dot" aria-hidden="true"></span>
+      <strong id="sb-state"></strong>
+      <span class="sb-detail" id="sb-detail"></span>
+      <span class="sb-note" id="sb-note"></span>
+      <span class="sb-more">See the signal →</span>
+    </span>
+  </a>
+
+  <main>
+    <header class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">Learn</p>
+        <h1>The words, in plain English</h1>
+        <p class="lead">No finance background needed. Start with the questions people ask most, or look up any term used on the site.</p>
+        <p class="actions"><a class="btn" href="#faq">Common questions</a> <a class="btn" href="#glossary">Glossary</a></p>
+      </div>
+    </header>
+
+    <section class="section" id="faq">
+      <div class="wrap narrow">
+        <header class="section-head"><p class="kicker">Asked most</p><h2>Common questions</h2></header>
+        <div class="faq">
+          <details>
+            <summary>Why not just buy and hold?</summary>
+            <p>Buying and holding an S&amp;P 500 fund works well over decades, and it's a perfectly good choice. The catch is the ride: it has fallen about 50% twice since 2000. Many people sell near the bottom of drops like that, which locks in the loss.</p>
+            <p>The signal tries to make the ride easier to stick with. In the backtest every option had a smaller worst drop than simply holding its own funds and still grew faster, because it sidestepped part of the deepest bear markets. In calm years it trails.</p>
+          </details>
+          <details>
+            <summary>Why not sell right before the crash?</summary>
+            <p>Because nobody can reliably tell when that is. Every early-warning sell signal tested here (expensive valuations, rising unemployment, the yield curve on its own) lost money or at best broke even, because markets often keep rising for a long time after the warning. The signal waits until prices have actually started falling.</p>
+          </details>
+          <details>
+            <summary>How often does it trade?</summary>
+            <p>Rarely: a couple of times per decade on average. Each sale is followed by a buy-back, sometimes a month later, sometimes more than a year later. The <a href="index.html">Home page</a> lists every sale since 1987.</p>
+          </details>
+          <details>
+            <summary>Doesn't selling mean missing out on gains?</summary>
+            <p>Sometimes, yes. At least half the sales were <a href="#false-alarm">false alarms</a>: the market bounced, and the buy-back came at a higher price than the sale. That cost is the price of being out of the market during the long, deep declines, where the signal saved much more.</p>
+          </details>
+          <details>
+            <summary>Which of the four options should I pick?</summary>
+            <p>This site can't answer that for you. All four follow the same signal; they differ in what they hold and in how much they sell. The <a href="index.html#compare">side-by-side table</a> shows the trade-off: the options that grew fastest also had the costliest false alarms, and the 100% Nasdaq-100 option has the shortest test. How much time you have and how large a drop you could sit through are personal questions for you and a licensed financial professional.</p>
+          </details>
+          <details>
+            <summary>Why add the Nasdaq-100 if it's riskier?</summary>
+            <p>Over the period tested it grew faster than the S&amp;P 500. On its own, its drops are brutal. In the two options that hold it, it's sold completely whenever both warning signs agree, which tamed most of that risk while keeping most of the extra growth.</p>
+          </details>
+          <details>
+            <summary>The Nasdaq-100 line finished highest. Why not just own that?</summary>
+            <p>It fell about 80% from 2000 to 2002 and took well over a decade to get back to its old high. Very few people could watch most of their retirement savings disappear and keep holding for that long. The signal aims for strong growth you can actually live with.</p>
+            <p>One of the four options on the <a href="index.html#nasdaq">Home page</a> is 100% Nasdaq-100 with the signal. In testing it grew fastest, because the signal sold before the 2000 and 2008 collapses. But each false alarm cost about twice as much, the test only goes back to 1987, and the result depends on the Nasdaq-100 continuing to outgrow the S&amp;P 500.</p>
+          </details>
+          <details>
+            <summary>Does this work in a regular (taxable) brokerage account?</summary>
+            <p>It was designed for retirement accounts such as an IRA, where buying and selling doesn't trigger taxes. In a taxable account, each sale could create a capital gains tax bill, which would eat into the results shown here.</p>
+          </details>
+          <details>
+            <summary>Can I do this in a 401(k)?</summary>
+            <p>It depends on your plan's fund menu and trading rules. You'd need an S&amp;P 500 index fund and a bond or Treasury option, and many 401(k)s don't offer a Nasdaq-100 fund. Some plans also limit how often you can move money. Check your plan's rules first.</p>
+          </details>
+          <details>
+            <summary>What could make this stop working?</summary>
+            <p>The main risk is the recession warning. If the yield curve stops inverting before recessions, the signal would rarely say sell. The warning also runs out 24 months after an inversion starts, so a downturn that arrives later than that would not trigger a sale. It also gives little protection in fast crashes (1987, 2020) or in bear markets without a recession (2022). And the history includes only about six recession bear markets since 1968, a small sample.</p>
+          </details>
+          <details>
+            <summary>Where does the data come from?</summary>
+            <p>Recent prices and interest rates come from FRED, the free data service of the Federal Reserve Bank of St. Louis. Older S&amp;P 500 history comes from a public daily dataset. The backtest was cross-checked against independent sources and an earlier, separate rebuild of the same rules.</p>
+          </details>
+          <details>
+            <summary>Is this financial advice?</summary>
+            <p>No. It's a personal project shared for education. It shows how a set of rules would have behaved in the past, which doesn't guarantee anything about the future. Talk to a licensed financial professional about your own situation.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="glossary">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">Reference</p><h2>Glossary</h2><p class="intro">Every technical term on the site. Dotted-underlined words on other pages link here.</p></header>
+        <div class="field gl-search"><label for="gl-filter">Find a term</label><input id="gl-filter" type="search" placeholder="Type a word, like bond or trend" autocomplete="off"></div>
+        <p class="fine" id="gl-empty" hidden>No terms match. Try a shorter word.</p>
+        <dl class="glossary">
+          <div id="cagr"><dt>Average yearly growth</dt><dd>The steady yearly rate that would turn the starting amount into the ending amount. Real returns bounce around; this smooths them into one number. Also called CAGR (compound annual growth rate).</dd></div>
+          <div id="backtest"><dt>Backtest</dt><dd>A replay of a strategy's rules on past market data, as if someone had followed them in real time. It shows how the rules would have behaved, not what will happen next.</dd></div>
+          <div id="bear-market"><dt>Bear market</dt><dd>A drop of 20% or more from a market's previous high. Deep ones often come with recessions; 2000–02 and 2007–09 are the best-known recent examples.</dd></div>
+          <div id="dividends"><dt>Dividends</dt><dd>Cash that companies pay their shareholders, usually every quarter. All results on this site assume dividends were reinvested.</dd></div>
+          <div id="etf"><dt>ETF (exchange-traded fund)</dt><dd>A fund that trades on the stock market like a single stock. Most index funds are available as ETFs, such as VOO for the S&amp;P 500 and QQQM for the Nasdaq-100.</dd></div>
+          <div id="false-alarm"><dt>False alarm (whipsaw)</dt><dd>When the signal says sell, the market quickly recovers, and the buy-back comes at a higher price than the sale. An expected cost of the rules.</dd></div>
+          <div id="index-fund"><dt>Index fund</dt><dd>A fund that simply owns every company in a market index, such as the S&amp;P 500, instead of picking stocks. Very low fees and broad diversification in one purchase.</dd></div>
+          <div id="inverted"><dt>Inverted yield curve</dt><dd>When short-term interest rates are higher than long-term rates. It's unusual, and it has come before nearly every US recession since the late 1960s, though not every inversion was followed by one. See <a href="framework.html">How it works</a>.</dd></div>
+          <div id="ira"><dt>IRA (individual retirement account)</dt><dd>A US retirement account with tax advantages. Trades inside it don't trigger taxes, which makes a rules-based approach like this practical.</dd></div>
+          <div id="log-scale"><dt>Log scale</dt><dd>A chart scale where each step up is the same percentage change ($10K to $20K looks the same size as $1M to $2M). It keeps long histories readable.</dd></div>
+          <div id="nasdaq100"><dt>Nasdaq-100</dt><dd>An index of the 100 largest non-financial companies listed on the Nasdaq stock exchange, heavily weighted toward technology. Faster growth than the S&amp;P 500 historically, with bigger swings.</dd></div>
+          <div id="rebalancing"><dt>Rebalancing</dt><dd>Buying and selling to bring the mix back to its target (for the 70/30 option, 70/30) after one fund has grown faster than the other. That option does this once a year.</dd></div>
+          <div id="recession"><dt>Recession</dt><dd>A broad, lasting decline in economic activity: jobs, spending and production all shrink. In the US, official dates are set by the National Bureau of Economic Research (NBER).</dd></div>
+          <div id="sp500"><dt>S&amp;P 500</dt><dd>An index of 500 of the largest US companies, the most common yardstick for "the stock market."</dd></div>
+          <div id="t-bills"><dt>T-bills (Treasury bills)</dt><dd>Very short-term loans to the US government, a few months long. They pay interest and barely move in price: about as close to cash as an investment gets.</dd></div>
+          <div id="treasuries"><dt>Treasuries (Treasury bonds and notes)</dt><dd>Longer loans to the US government, here 7 to 10 years. Their prices tend to rise when the economy weakens and interest rates fall, which helps in recessions.</dd></div>
+          <div id="trend"><dt>Trend (10-month average)</dt><dd>The average of the S&amp;P 500's last 10 month-end closing levels. A close below it means prices have been falling long enough to count as a downtrend.</dd></div>
+          <div id="drawdown"><dt>Worst drop (drawdown)</dt><dd>How far an investment fell from its previous high before recovering. A −50% drawdown means half the value was gone at the low point.</dd></div>
+          <div id="yield-curve"><dt>Yield curve</dt><dd>The interest rates the US government pays to borrow for different lengths of time, from 3 months to 30 years. The signal watches the gap between the 10-year rate and the 3-month rate.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+
+      <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
+    </div>
+  </footer>
+</body>
+</html>

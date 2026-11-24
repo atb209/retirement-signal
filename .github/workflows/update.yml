@@ -1,0 +1,84 @@
+# update.yml — tells GitHub Actions what to run and when.
+#
+# Each run: download fresh data from FRED -> run the rules -> save the new data
+# files to the repository -> publish the website to GitHub Pages.
+#
+# YAML basics: indentation matters (2 spaces), "key: value" pairs, "- " starts a list item.
+
+name: Update data and publish site
+
+on:
+  schedule:
+    # Cron times are in UTC. Format: minute hour day-of-month month day-of-week
+    - cron: "17 13 * * 1-5"   # weekdays at 13:17 UTC (5:17am Pacific, 6:17am in summer)
+    - cron: "37 22 1-4 * *"   # days 1-4 of each month, mid-afternoon Eastern: picks up FRED's monthly yields the day they post
+  push:
+    branches: [main]          # also run whenever you push a change to the code
+  workflow_dispatch:          # adds a "Run workflow" button on the Actions tab
+
+permissions:
+  contents: write             # save the updated data files back to the repository
+  pages: write                # publish to GitHub Pages
+  id-token: write             # needed by the Pages publishing step
+
+concurrency:
+  group: pages                # never run two updates at the same time
+  cancel-in-progress: false
+
+jobs:
+  update-and-publish:
+    runs-on: ubuntu-latest    # a fresh Linux machine that GitHub provides for each run
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v7
+
+      - name: Install Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pipeline/requirements.txt
+
+      - name: Install the Python packages
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Download data and run the rules
+        working-directory: pipeline
+        env:
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}   # read from the repository's secrets, never shown in logs
+        run: python update.py
+
+      - name: Save the new data files to the repository
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "Data unchanged"
+          else
+            git commit -m "Update data $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git pull --rebase
+            git push
+          fi
+
+      - name: Collect the website files
+        run: |
+          mkdir _site
+          cp -r *.html assets data _site/
+          # Stamp every stylesheet and script link with this commit's id, so browsers
+          # always fetch the newest files instead of an old saved copy.
+          sed -i -E "s/\?v=[A-Za-z0-9.]+\"/?v=${GITHUB_SHA::8}\"/g" _site/*.html
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+      - name: Publish to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v5

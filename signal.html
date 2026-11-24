@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page: its title, fonts, styles and scripts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signal now · Retirement Signal</title>
+  <meta name="description" content="Where the Retirement Signal stands this month: the two warning signs and what they mean.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233987e5%27/%3E%3Cpath d=%27M7 22l6-6 4 4 8-9%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
+  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
+  <!-- "defer" = download now, run once the page is ready, in this order: chart library, helpers, this page. -->
+  <script defer src="assets/vendor/chart.umd.js?v=4.4.1"></script>
+  <script defer src="assets/common.js?v=94b6d9b3"></script>
+  <script defer src="assets/signal.js?v=94b6d9b3"></script>
+</head>
+<body data-page="signal" data-charts="yes">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l5-5 4 4 7-8"/></svg></span><span class="brand-name">Retirement Signal</span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="framework.html">How it works</a>
+        <a class="link" href="signal.html">Signal now</a>
+        <a class="link" href="learn.html">Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- A slim strip under the menu that says where things stand right now. common.js fills it in from data/signal.json. -->
+  <a class="statusbar" id="statusbar" href="signal.html" hidden>
+    <span class="wrap">
+      <span class="sb-dot" aria-hidden="true"></span>
+      <strong id="sb-state"></strong>
+      <span class="sb-detail" id="sb-detail"></span>
+      <span class="sb-note" id="sb-note"></span>
+      <span class="sb-more">See the signal →</span>
+    </span>
+  </a>
+
+  <main>
+    <header class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">Signal now</p>
+        <h1>Where the signal stands this month</h1>
+        <p class="lead">The signal only acts at month-end. In between, this page shows what the rules would say if the month ended today. It updates every weekday morning.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="wrap">
+        <!-- The big status. signal.js fills this in. -->
+        <div class="status" id="status-card" data-kind="none">
+          <div class="status-icon" id="status-icon" aria-hidden="true"></div>
+          <div class="status-body">
+            <p class="status-label" id="status-label">Loading the latest reading…</p>
+            <p class="status-title" id="status-title"></p>
+            <p class="status-means" id="status-means"></p>
+            <p class="fine" id="status-next"></p>
+          </div>
+        </div>
+        <div class="banner" id="pending" hidden></div>
+
+        <div class="checks">
+          <div class="panel check">
+            <div class="lamp big" id="lamp-trend" data-state="unknown"><i class="bulb" aria-hidden="true"></i><span class="lamp-name">Warning sign 1</span><b class="lamp-state" hidden></b></div>
+            <h3>Is the stock market's trend down?</h3>
+            <p><span id="trend-pill" class="pill"></span></p>
+            <div class="meter" id="trend-meter" aria-hidden="true">
+              <div class="meter-track"><i class="meter-mid"></i><i class="meter-dot"></i></div>
+              <div class="meter-scale"><span>10% below</span><span>10-month average</span><span>10% above</span></div>
+            </div>
+            <p id="trend-text"></p>
+            <dl class="kv" id="trend-kv"></dl>
+          </div>
+          <div class="panel check">
+            <div class="lamp big" id="lamp-curve" data-state="unknown"><i class="bulb" aria-hidden="true"></i><span class="lamp-name">Warning sign 2</span><b class="lamp-state" hidden></b></div>
+            <h3>Is there a recession warning?</h3>
+            <p><span id="curve-pill" class="pill"></span></p>
+            <div class="dots" id="curve-dots" aria-hidden="true"></div>
+            <p class="fine" id="curve-dots-note"></p>
+            <p id="curve-text"></p>
+            <dl class="kv" id="curve-kv"></dl>
+          </div>
+        </div>
+        <p class="fine">The signal says step aside only when <strong>both</strong> answers are yes at a month-end check. New to these terms? <a href="framework.html">How it works</a> explains both signs.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The evidence</p><h2>The last three years</h2></header>
+        <div class="panel chart-card">
+          <p class="fig-label">S&amp;P 500 month-end close and its 10-month average</p>
+          <div class="legend-static">
+            <span><i class="key-line" style="background:var(--c-plan)"></i>S&amp;P 500 close</span>
+            <span><i class="key-line dashed"></i>10-month average</span>
+            <span><i class="key-box"></i>Signal said step aside</span>
+          </div>
+          <div class="chart-box mid"><canvas id="trend-chart" role="img" aria-label="S&amp;P 500 month-end closes against the 10-month average, last three years"></canvas></div>
+          <p class="chart-note" id="trend-note"></p>
+        </div>
+        <div class="panel chart-card">
+          <p class="fig-label">Yield curve · 10-year rate minus 3-month rate, in percentage points</p>
+          <div class="legend-static">
+            <span><i class="key-box k-pos solid"></i>Normal (above zero)</span>
+            <span><i class="key-box k-neg solid"></i>Inverted (below zero)</span>
+          </div>
+          <div class="chart-box short"><canvas id="curve-chart" role="img" aria-label="Monthly yield curve, last three years"></canvas></div>
+          <p class="chart-note">When the bars first drop below zero, the recession warning turns on. It then runs for 24 months, however long the bars stay below zero.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The four options</p><h2>What each option holds right now</h2><p class="intro" id="options-intro"></p></header>
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Option</th><th>Holds right now</th><th id="options-th-next">On a sell signal it would hold</th></tr></thead>
+            <tbody id="options-now"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">Behind the page</p><h2>How this page updates</h2></header>
+        <div class="panel">
+          <ol class="numbered">
+            <li><strong>Every weekday morning</strong> an automated job downloads the latest prices and interest rates from FRED, the Federal Reserve Bank of St. Louis's free data service, and refreshes the "if the month ended today" reading.</li>
+            <li><strong>After the last trading day of the month,</strong> once FRED posts that month's average interest rates (usually the next business day), the official signal locks in for the month.</li>
+            <li><strong>If the signal changes,</strong> the trade happens on the next trading day. Then nothing changes until the next month-end.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p id="data-status"></p>
+      <p>Data: FRED, Federal Reserve Bank of St. Louis (S&amp;P 500, Nasdaq-100, 10-year Treasury and 3-month T-bill rates).</p>
+      <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
+    </div>
+  </footer>
+</body>
+</html>

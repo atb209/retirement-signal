@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page: its title, fonts, styles and scripts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Retirement Signal</title>
+  <meta name="description" content="A simple, rules-based signal for retirement savings: stay invested in index funds and step aside only when two warning signs agree. Four options, with historical results in plain English.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233987e5%27/%3E%3Cpath d=%27M7 22l6-6 4 4 8-9%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
+  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
+  <!-- "defer" = download now, run once the page is ready, in this order: chart library, helpers, this page. -->
+  <script defer src="assets/vendor/chart.umd.js?v=4.4.1"></script>
+  <script defer src="assets/common.js?v=94b6d9b3"></script>
+  <script defer src="assets/home.js?v=94b6d9b3"></script>
+</head>
+<body data-page="home" data-charts="yes">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l5-5 4 4 7-8"/></svg></span><span class="brand-name">Retirement Signal</span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="framework.html">How it works</a>
+        <a class="link" href="signal.html">Signal now</a>
+        <a class="link" href="learn.html">Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- A slim strip under the menu that says where things stand right now. common.js fills it in from data/signal.json. -->
+  <a class="statusbar" id="statusbar" href="signal.html" hidden>
+    <span class="wrap">
+      <span class="sb-dot" aria-hidden="true"></span>
+      <strong id="sb-state"></strong>
+      <span class="sb-detail" id="sb-detail"></span>
+      <span class="sb-note" id="sb-note"></span>
+      <span class="sb-more">See the signal →</span>
+    </span>
+  </a>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-head">
+          <p class="eyebrow">A rules-based signal for retirement savings</p>
+          <h1>Stay invested. Step aside only when <span class="hl">two warning signs</span> agree.</h1>
+          <p class="lead">One signal, checked once a month, and four ways to use it with low-cost <a class="term" href="learn.html#index-fund">index funds</a>. Pick an option to see what $10,000 became, next to simply holding the S&amp;P 500 or the Nasdaq-100.</p>
+        </div>
+
+        <aside class="hero-side" aria-label="Where the signal stands now">
+          <p class="side-title">The two warning signs, right now</p>
+          <div class="lamps">
+            <div class="lamp" id="lamp-trend" data-state="unknown"><i class="bulb" aria-hidden="true"></i><span class="lamp-name">Stock trend down?</span><b class="lamp-state">…</b></div>
+            <div class="lamp" id="lamp-curve" data-state="unknown"><i class="bulb" aria-hidden="true"></i><span class="lamp-name">Recession warning?</span><b class="lamp-state">…</b></div>
+          </div>
+          <a id="status-pill" class="pill" href="signal.html" hidden></a>
+          <a class="side-link" href="signal.html">See this month's signal →</a>
+        </aside>
+
+        <!-- The main chart. home.js fills in the numbers, the chips and the lines. -->
+        <div class="stage">
+          <p class="fig-label">Figure 1 · Growth of $10,000</p>
+          <div class="stage-top">
+            <div class="readout" aria-live="off">
+              <div class="ro-date" id="ro-date">Loading the history…</div>
+              <div class="ro-items" id="ro-items"></div>
+            </div>
+            <div class="toggle" id="view-toggle" role="group" aria-label="Which option to show">
+              <button type="button" data-view="ndx100" aria-pressed="true">100% Nasdaq<span class="sep"> · </span><span class="sub">sells all</span></button>
+              <button type="button" data-view="sp100" aria-pressed="false">100% S&amp;P 500<span class="sep"> · </span><span class="sub">sells all</span></button>
+              <button type="button" data-view="plan7030" aria-pressed="false">70/30 mix<span class="sep"> · </span><span class="sub">sells part</span></button>
+              <button type="button" data-view="spcore" aria-pressed="false">S&amp;P 500<span class="sep"> · </span><span class="sub">sells half</span></button>
+            </div>
+          </div>
+          <p class="option-note"><strong id="option-name"></strong><span>Invested: <b id="option-in"></b></span><span>Stepped aside: <b id="option-out"></b></span></p>
+          <div class="chips" id="ranges" role="group" aria-label="Zoom to a period"></div>
+          <div class="chart-box hero-chart"><canvas id="growth" role="img" aria-label="Growth of $10,000: the chosen option compared with buying and holding the S&amp;P 500 and the Nasdaq-100"></canvas></div>
+          <div class="stage-foot">
+            <div class="chips legend" id="legend" role="group" aria-label="Show or hide lines"></div>
+            <button type="button" class="btn play" id="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg><span>Play the history</span></button>
+          </div>
+          <p class="chart-note" id="reading"></p>
+          <p class="chart-fine">Point at the chart to read any month. The full history uses a <a class="term" href="learn.html#log-scale">log scale</a>, so each step up the side is the same percentage gain. Zooming to a period restarts every line at $10,000. The S&amp;P-only view runs the same rules back to 1968, before Nasdaq-100 data exists.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-stats">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">The numbers</p>
+          <h2>The headline numbers</h2>
+        </header>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Average yearly growth</div><div class="stat-value" id="s-cagr">–</div><div class="compare" id="s-cagr-b"></div><div class="stat-explain">The steady yearly rate that turns $10,000 into the final amount.</div></div>
+          <div class="stat"><div class="stat-label">Worst drop from a high</div><div class="stat-value" id="s-dd">–</div><div class="compare" id="s-dd-b"></div><div class="stat-explain">The biggest fall from a previous peak: what you'd have had to sit through.</div></div>
+          <div class="stat"><div class="stat-label">Worst 12 months</div><div class="stat-value" id="s-w12">–</div><div class="compare" id="s-w12-b"></div><div class="stat-explain">The biggest loss over any one-year stretch.</div></div>
+          <div class="stat"><div class="stat-label" id="s-end-label">$10,000 grew to</div><div class="stat-value" id="s-end">–</div><div class="compare" id="s-end-b"></div><div class="stat-explain" id="s-end-x">Dividends included, before taxes.</div></div>
+        </div>
+        <p class="fine">These numbers follow the option chosen above the chart. They come from a <a class="term" href="learn.html#backtest">backtest</a>: the rules replayed on real market history, month by month.</p>
+      </div>
+    </section>
+
+    <section class="section section-compare" id="compare">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Side by side</p>
+          <h2>The four options, side by side</h2>
+          <p class="intro" id="compare-intro"></p>
+        </header>
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Option</th><th class="num">Average yearly growth</th><th class="num">Worst drop from a high</th><th class="num" id="cmp-end-th">$10,000 became</th></tr></thead>
+            <tbody id="compare-body"></tbody>
+          </table>
+        </div>
+        <p class="fine" id="compare-note"></p>
+      </div>
+    </section>
+
+    <section class="section section-steps">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">The idea</p>
+          <h2>The signal in three steps</h2>
+        </header>
+        <ol class="steps3">
+          <li><h3>Own the market</h3><p>Normally the money sits in an <a class="term" href="learn.html#sp500">S&amp;P 500</a> fund, a <a class="term" href="learn.html#nasdaq100">Nasdaq-100</a> fund, or a mix of the two: hundreds of the largest US companies for a tiny yearly fee. The four options differ in which.</p></li>
+          <li><h3>Check two warning signs, once a month</h3><p>Is the stock market's <a class="term" href="learn.html#trend">trend</a> pointing down? Has the bond market flashed its classic <a class="term" href="learn.html#yield-curve">recession warning</a>? Most months at least one answer is no, and nothing happens.</p></li>
+          <li><h3>Step aside, then get back in</h3><p>When both signs are on, each option sells its set amount (all of its stock funds, part or half) and parks that money in <a class="term" href="learn.html#treasuries">US government bonds</a>. When prices recover, it buys back.</p></li>
+        </ol>
+        <p class="actions"><a class="btn primary" href="framework.html">See how it works, with pictures →</a></p>
+      </div>
+    </section>
+
+    <section class="section section-ride">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">The ride</p>
+          <h2>How far each one fell from its last high</h2>
+          <p class="intro">Growth is only half the story. This is what holding each one would have felt like along the way. Zero means a new high; lower is worse.</p>
+        </header>
+        <div class="panel chart-card">
+          <p class="fig-label">Figure 2 · Declines from the previous high</p>
+          <div class="legend-static">
+            <span><i class="key-line" style="background:var(--c-plan)"></i><span id="lg-plan2">With the signal</span></span>
+            <span><i class="key-line" style="background:var(--c-sp)"></i>S&amp;P 500</span>
+            <span class="ndx-only"><i class="key-line" style="background:var(--c-ndx)"></i>Nasdaq-100</span>
+            <span><i class="key-box"></i>Signal said step aside</span>
+          </div>
+          <div class="chart-box mid"><canvas id="drawdown" role="img" aria-label="Declines from previous highs: the chosen option compared with the S&amp;P 500 and the Nasdaq-100"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-calc" id="calculator">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Try it</p>
+          <h2>What if you had started in…</h2>
+          <p class="intro">Pick a starting year and amount, and add a monthly contribution if you like. The calculator replays the same monthly history as the chart, for the option chosen at the top of the page.</p>
+        </header>
+        <div class="panel">
+          <form class="calc-form" id="calc" novalidate>
+            <div class="field"><label for="c-amount">Starting amount ($)</label><input id="c-amount" type="number" min="0" step="1000" value="10000" inputmode="numeric"><div class="field-error" id="e-amount" role="alert"></div></div>
+            <div class="field"><label for="c-monthly">Added each month ($)</label><input id="c-monthly" type="number" min="0" step="50" value="0" inputmode="numeric"><div class="field-error" id="e-monthly" role="alert"></div></div>
+            <div class="field"><label for="c-year">Starting year</label><select id="c-year"></select><div class="field-error"></div></div>
+          </form>
+          <div class="results" id="calc-results"></div>
+          <p class="fine" id="calc-note"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-sales">
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">The record</p>
+          <h2>Every time the signal said step aside</h2>
+          <p class="intro" id="sales-intro"></p>
+        </header>
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Sold at the end of</th><th>Bought back at the end of</th><th class="num">Months out</th><th class="num" id="th-stocks">Stocks did meanwhile</th><th class="num">Result vs. staying put</th></tr></thead>
+            <tbody id="sales"></tbody>
+          </table>
+        </div>
+        <p class="fine">"Result vs. staying put" is how much better or worse off the whole portfolio was because of that sale, compared with holding the same funds without the signal. Most sales cost a little. The few before deep bear markets paid for all of them.</p>
+        <details class="more">
+          <summary>Show year-by-year returns</summary>
+          <div class="panel table-wrap">
+            <table>
+              <thead><tr><th>Year</th><th class="num" id="th-plan-yr">With the signal</th><th class="num">S&amp;P 500</th><th class="num ndx-only">Nasdaq-100</th><th class="num">Vs. S&amp;P 500</th></tr></thead>
+              <tbody id="years"></tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p><strong>How these numbers were made.</strong> Month-end prices with dividends reinvested. S&amp;P 500 history from a public daily dataset; Nasdaq-100 and recent prices from FRED (Federal Reserve Bank of St. Louis). Treasury returns rebuilt from the 10-year yield; T-bill returns from 3-month rates. Nasdaq-100 dividends estimated at 0.7% a year. A 0.1% trading cost on every trade. No taxes: the plan is designed for a retirement account such as an IRA. <span id="updated"></span></p>
+      <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
+    </div>
+  </footer>
+</body>
+</html>
