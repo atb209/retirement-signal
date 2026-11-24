@@ -11,9 +11,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
   <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
-  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
-  <script defer src="assets/common.js?v=94b6d9b3"></script>
-  <script defer src="assets/learn.js?v=94b6d9b3"></script>
+  <link rel="stylesheet" href="assets/style.css?v=2f9714df">
+  <script defer src="assets/common.js?v=2f9714df"></script>
+  <script defer src="assets/learn.js?v=2f9714df"></script>
 </head>
 <body data-page="learn" data-charts="no">
   <header class="nav">
@@ -67,6 +67,10 @@
             <p>Rarely: a couple of times per decade on average. Each sale is followed by a buy-back, sometimes a month later, sometimes more than a year later. The <a href="index.html">Home page</a> lists every sale since 1987.</p>
           </details>
           <details>
+            <summary>How far back has it been tested?</summary>
+            <p>The main results start in 1968 for the two S&amp;P 500 options and in 1987 for the two that hold the Nasdaq-100, whose data starts in 1985. A rougher test of the same two warning signs goes back to 1920. It sidestepped most of the 1929–32 crash and missed the 1937–38 fall. The <a href="index.html#since-1920">Home page</a> shows both.</p>
+          </details>
+          <details>
             <summary>Doesn't selling mean missing out on gains?</summary>
             <p>Sometimes, yes. At least half the sales were <a href="#false-alarm">false alarms</a>: the market bounced, and the buy-back came at a higher price than the sale. That cost is the price of being out of the market during the long, deep declines, where the signal saved much more.</p>
           </details>
@@ -93,11 +97,11 @@
           </details>
           <details>
             <summary>What could make this stop working?</summary>
-            <p>The main risk is the recession warning. If the yield curve stops inverting before recessions, the signal would rarely say sell. The warning also runs out 24 months after an inversion starts, so a downturn that arrives later than that would not trigger a sale. It also gives little protection in fast crashes (1987, 2020) or in bear markets without a recession (2022). And the history includes only about six recession bear markets since 1968, a small sample.</p>
+            <p>The main risk is the recession warning. If the yield curve stops inverting before recessions, the signal would rarely say sell. That happened through most of the 1930s and 1940s, when short-term rates sat under 1% and the curve could not invert. The warning also runs out 24 months after an inversion starts, so a downturn that arrives later than that would not trigger a sale. It also gives little protection in fast crashes (1987, 2020) or in bear markets without a recession (2022). And the history includes only about six recession bear markets since 1968, a small sample.</p>
           </details>
           <details>
             <summary>Where does the data come from?</summary>
-            <p>Recent prices and interest rates come from FRED, the free data service of the Federal Reserve Bank of St. Louis. Older S&amp;P 500 history comes from a public daily dataset. The backtest was cross-checked against independent sources and an earlier, separate rebuild of the same rules.</p>
+            <p>Recent prices and interest rates come from FRED, the free data service of the Federal Reserve Bank of St. Louis. Older S&amp;P 500 history comes from a public daily dataset. The 1920–1967 test adds older interest-rate records collected by the National Bureau of Economic Research, also published on FRED. The backtest was cross-checked against independent sources and an earlier, separate rebuild of the same rules.</p>
           </details>
           <details>
             <summary>Is this financial advice?</summary>

@@ -204,7 +204,8 @@ const Site = {
 
   /* Shades the months when the plan stepped aside. options.plugins.bands:
        flags = 0/1 per point, color = fill color,
-       months = month labels (optional; with it, long periods get a year label like "2000–03") */
+       months = month labels (optional; with it, long periods get a year label like "2000–03"),
+       labelMin = shortest period, in months, that gets a label (optional; 6 if left out) */
   bandPlugin: {
     id: "bands",
     beforeDatasetsDraw(chart, _args, opts) {
@@ -225,7 +226,7 @@ const Site = {
         ctx.textAlign = "center";
         let lastRight = -1e9;
         for (const p of Site.periods(flags)) {
-          if (p.j - p.i + 1 < 6) continue;
+          if (p.j - p.i + 1 < (opts.labelMin || 6)) continue;
           const text = Site.yearSpan(opts.months[p.i], opts.months[p.j]);
           const mid = (x.getPixelForValue(p.i) + x.getPixelForValue(p.j)) / 2;
           const w = ctx.measureText(text).width;

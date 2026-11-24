@@ -179,6 +179,8 @@ tbody tr:last-child td { border-bottom: 0; }
 .up { color: var(--good-ink); }
 .down { color: var(--bad-ink); }
 details.more { margin-top: 18px; }
+.section-early .stats + .panel, .section-early .panel + .cards { margin-top: 16px; }
+.section-early .fine { margin-top: 16px; }
 details > summary { cursor: pointer; font-family: var(--font-ui); font-weight: 600; color: var(--link); margin-bottom: 14px; }
 
 /* how it works */

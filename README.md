@@ -22,6 +22,7 @@ FRED (free data)  ->  pipeline/update.py  ->  data/*.json  ->  the pages
 | `pipeline/rules.py` | The signal's rules and the backtest math |
 | `pipeline/update.py` | Runs everything and writes `data/backtest.json` and `data/signal.json` |
 | `pipeline/history/monthly_history.csv` | Frozen monthly history (S&P 500 since 1950, Nasdaq-100 since 1985) |
+| `data/test-1920-1967.json` | A one-time test of the signal on 1920–1967, shown at the bottom of the home page. The daily update never changes it |
 | `assets/style.css` | The whole look: colors, fonts, layout. The settings are the `--names` at the top |
 | `assets/common.js` | Helpers shared by every page (loading data, formatting, chart extras) |
 | `assets/home.js`, `framework.js`, `signal.js`, `learn.js` | Fill in each page from the JSON files |

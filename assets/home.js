@@ -37,9 +37,10 @@ const SERIES = [
 ];
 
 Site.pages.home = async function () {
-  const [bt, sig] = await Promise.all([
+  const [bt, sig, early] = await Promise.all([
     Site.loadJSON("data/backtest.json"),
     Site.loadJSON("data/signal.json").catch(() => null),      // the page still works without it
+    Site.loadJSON("data/test-1920-1967.json").catch(() => null),   // the one-time 1920-1967 test; its section stays hidden without it
   ]);
   Home.bt = bt;
   Home.view = Object.keys(VIEW_HASH).find((k) => VIEW_HASH[k] === location.hash && bt.views[k]) || Home.view;
@@ -60,6 +61,7 @@ Site.pages.home = async function () {
 
   const steps = [["the main chart", renderView], ["the calculator", setupCalculator]];
   if (sig) steps.unshift(["this month's signal", () => showSignal(sig)]);
+  if (early) steps.push(["the 1920 test", () => renderEarly(early)]);
   Site.runSteps(steps);
   Site.setText("updated", `Data through ${Site.monthLabel(bt.as_of_month)}. Updated ${new Date(bt.generated_utc).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}.`);
 };
@@ -422,14 +424,17 @@ function renderSales(v) {
   Site.setText("sales-intro",
     `${s.sales} sell signals since ${v.months[1].slice(0, 4)}. This option spent ${s.pct_months_trimmed}% of all months stepped aside, ` +
     `about one month in ${Math.round(100 / s.pct_months_trimmed)}, and was fully invested the rest of the time.`);
-  const rows = v.trades.map((t) => [
+  if (Site.el("sales")) Site.fillTable(Site.el("sales"), saleRows(v.trades));
+}
+/* One table row per sale: when, how long, what stocks did meanwhile, and how the sale worked out. */
+function saleRows(trades) {
+  return trades.map((t) => [
     Site.monthLabel(t.sold),
     t.bought_back ? Site.monthLabel(t.bought_back) : "Still stepped aside",
     { text: String(t.months), cls: "num" },
     { text: t.months ? Site.pct(t.stocks_while_out, 1, true) : "–", cls: "num" },                 // a sale made this month has no result yet
     { text: t.months ? Site.pct(t.vs_holding, 1, true) : "–", cls: `num ${t.months ? (t.vs_holding > 0 ? "up" : "down") : ""}` },
   ]);
-  if (Site.el("sales")) Site.fillTable(Site.el("sales"), rows);
 }
 
 /* Year by year: the value at each December compared with the December before. */
@@ -450,6 +455,51 @@ function renderYears(v, hasNdx) {
     prev = i;
   });
   Site.fillTable(Site.el("years"), rows.reverse());
+}
+
+/* ---------- the 1920-1967 test (its own data file; it does not follow the option buttons) ---------- */
+
+function renderEarly(e) {
+  const section = Site.el("since-1920");
+  if (!section) return;
+  section.hidden = false;
+  if (Site.el("early-link")) Site.el("early-link").hidden = false;
+
+  const p = e.stats.plan, b = e.stats.benchmark;
+  const never = (text) => [["--c-sp", `Never selling ${text}`]];
+  Site.setText("e-crash", Site.pct(e.crash_1929.plan, 0));
+  compareLine("e-crash-b", never(Site.pct(e.crash_1929.hold, 0)));
+  Site.setText("e-cagr", Site.pct(p.cagr));
+  compareLine("e-cagr-b", never(Site.pct(b.cagr)));
+  Site.setText("e-sales", String(e.stats.sales));
+  Site.setText("e-dd", Site.pct(p.max_drawdown, 0));
+  compareLine("e-dd-b", never(Site.pct(b.max_drawdown, 0)));
+  Site.setText("e-end", Site.money(p.end_value));
+  compareLine("e-end-b", never(Site.money(b.end_value)));
+  Site.setText("e-late", Site.pct(e.stats.late_cagr));
+
+  const o = Site.baseOptions();
+  o.scales.x.ticks.callback = Site.yearTicks(e.months, Site.yearStep(e.months.length, "early-growth"));
+  o.scales.y.type = "logarithmic";
+  o.scales.y.afterBuildTicks = logTicks;
+  o.scales.y.ticks.callback = axisMoney;
+  o.scales.y.afterFit = (scale) => { scale.width = 58; };
+  o.layout.padding = { right: 70, top: 22, left: 0, bottom: 0 };   // same edges as the other charts
+  o.plugins.bands = { flags: e.trimmed, color: Site.css("--c-band"), months: e.months, labelMin: 20 };   // label only the long 1929–32 band, so it always fits on a phone
+  o.plugins.endLabels = { format: (x) => Site.money(x) };
+  o.plugins.tooltip.callbacks = {
+    title: (items) => `${Site.monthLabel(e.months[items[0].dataIndex], true)}${e.trimmed[items[0].dataIndex] ? " · stepped aside" : ""}`,
+    label: (item) => `${Site.moneyFull(item.raw)}  ${item.dataset.label}`,
+  };
+  Site.draw("early-growth", "line", {
+    labels: e.months,
+    datasets: [
+      Site.line(WITH_SIGNAL, e.plan, "--c-plan", { borderWidth: 2.25, order: 0 }),
+      Site.line("US stocks, never selling", e.benchmark, "--c-sp", { borderWidth: 1.5, order: 1 }),
+    ],
+  }, o);
+
+  if (Site.el("early-sales")) Site.fillTable(Site.el("early-sales"), saleRows(e.trades));
 }
 
 /* ---------- calculator (follows the option chosen above the chart) ---------- */

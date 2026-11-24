@@ -11,11 +11,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
   <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
-  <link rel="stylesheet" href="assets/style.css?v=94b6d9b3">
+  <link rel="stylesheet" href="assets/style.css?v=2f9714df">
   <!-- "defer" = download now, run once the page is ready, in this order: chart library, helpers, this page. -->
   <script defer src="assets/vendor/chart.umd.js?v=4.4.1"></script>
-  <script defer src="assets/common.js?v=94b6d9b3"></script>
-  <script defer src="assets/home.js?v=94b6d9b3"></script>
+  <script defer src="assets/common.js?v=2f9714df"></script>
+  <script defer src="assets/home.js?v=2f9714df"></script>
 </head>
 <body data-page="home" data-charts="yes">
   <header class="nav">
@@ -83,7 +83,7 @@
             <button type="button" class="btn play" id="play"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5l11 7-11 7z" /></svg><span>Play the history</span></button>
           </div>
           <p class="chart-note" id="reading"></p>
-          <p class="chart-fine">Point at the chart to read any month. The full history uses a <a class="term" href="learn.html#log-scale">log scale</a>, so each step up the side is the same percentage gain. Zooming to a period restarts every line at $10,000. The S&amp;P-only view runs the same rules back to 1968, before Nasdaq-100 data exists.</p>
+          <p class="chart-fine">Point at the chart to read any month. The full history uses a <a class="term" href="learn.html#log-scale">log scale</a>, so each step up the side is the same percentage gain. Zooming to a period restarts every line at $10,000. The two S&amp;P 500 options run the same rules back to 1968, before Nasdaq-100 data exists.<span id="early-link" hidden> A rougher test of the same signal goes <a href="#since-1920">back to 1920</a>.</span></p>
         </div>
       </div>
     </section>
@@ -200,11 +200,53 @@
         </details>
       </div>
     </section>
+    <!-- The 1920-1967 test. home.js fills it from data/test-1920-1967.json, a one-time file that never updates.
+         The section stays hidden if that file is missing. -->
+    <section class="section section-early" id="since-1920" hidden>
+      <div class="wrap">
+        <header class="section-head">
+          <p class="kicker">Further back</p>
+          <h2>The same signal, tested back to 1920</h2>
+          <p class="intro">The results above start in 1968 at the earliest. Older records let the same two warning signs run from 1920 to 1967, through the 1929 crash and the Great Depression. The signal sidestepped most of the 1929 collapse and missed the one in 1937.</p>
+        </header>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">The 1929–32 crash</div><div class="stat-value" id="e-crash">–</div><div class="compare" id="e-crash-b"></div><div class="stat-explain">Sold at the end of October 1929. Bought back at the end of August 1932.</div></div>
+          <div class="stat"><div class="stat-label">Average yearly growth</div><div class="stat-value" id="e-cagr">–</div><div class="compare" id="e-cagr-b"></div><div class="stat-explain">1920 to 1967, with <span id="e-sales">4</span> sales in 48 years.</div></div>
+          <div class="stat"><div class="stat-label">Worst drop from a high</div><div class="stat-value" id="e-dd">–</div><div class="compare" id="e-dd-b"></div><div class="stat-explain">The signal's worst drop was 1937–38, when it did not sell.</div></div>
+          <div class="stat"><div class="stat-label">$10,000 in 1920 grew to</div><div class="stat-value" id="e-end">–</div><div class="compare" id="e-end-b"></div><div class="stat-explain">By the end of 1967. Dividends included, before taxes.</div></div>
+        </div>
+        <div class="panel chart-card">
+          <p class="fig-label">Figure 3 · Growth of $10,000, 1920 to 1967</p>
+          <div class="legend-static">
+            <span><i class="key-line" style="background:var(--c-plan)"></i>With the signal</span>
+            <span><i class="key-line" style="background:var(--c-sp)"></i>US stocks, never selling</span>
+            <span><i class="key-box"></i>Signal said step aside</span>
+          </div>
+          <div class="chart-box mid"><canvas id="early-growth" role="img" aria-label="Growth of $10,000 from 1920 to 1967: with the signal compared with never selling"></canvas></div>
+          <p class="chart-note">The wide band is the 34 months the signal sat out after October 1929. Point at the chart to read any month. It uses a <a class="term" href="learn.html#log-scale">log scale</a>, like the chart at the top.</p>
+        </div>
+        <div class="cards cols-3">
+          <div class="card"><h3>What it caught: 1929</h3><p>Both warning signs were on at the end of October 1929, after the first leg of the crash. The signal sold, 23% below the peak, and sat in T-bills for 34 months. Stocks went on to lose 83%.</p></div>
+          <div class="card"><h3>What it missed: 1937</h3><p>Stocks fell 50% in 1937–38 and the signal never sold. Short-term interest rates were under 1% for nearly all of 1932 to 1947, so the <a class="term" href="learn.html#yield-curve">yield curve</a> could not invert and the recession warning stayed off. Rates were pinned that low again after 2008 and in 2020–2022.</p></div>
+          <div class="card"><h3>How close 1929 was</h3><p>The 24-month warning ran out in January 1930, three months after the sale. That spring, stocks came within 2% of the level that triggers a buy-back. Had they crossed it, the signal would have bought back in and held through the rest of the fall.</p></div>
+        </div>
+        <details class="more">
+          <summary>Show the sales in this test</summary>
+          <div class="panel table-wrap">
+            <table>
+              <thead><tr><th>Sold at the end of</th><th>Bought back at the end of</th><th class="num">Months out</th><th class="num">Stocks did meanwhile</th><th class="num">Result vs. staying put</th></tr></thead>
+              <tbody id="early-sales"></tbody>
+            </table>
+          </div>
+        </details>
+        <p class="fine"><strong>How this test differs from the main one.</strong> Up to 1953 the interest rates are older records: long-term government bond yields minus short-term government rates, collected by the National Bureau of Economic Research and published on FRED. Stock prices come from a long daily record of US stocks, which follows the S&amp;P 500's predecessor from 1928. While stepped aside, all the money sits in T-bills. Trading a month late still averaged <span id="e-late">–</span> a year. With only a handful of sales in 48 years, read this as supporting evidence, not proof.</p>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <div class="wrap">
-      <p><strong>How these numbers were made.</strong> Month-end prices with dividends reinvested. S&amp;P 500 history from a public daily dataset; Nasdaq-100 and recent prices from FRED (Federal Reserve Bank of St. Louis). Treasury returns rebuilt from the 10-year yield; T-bill returns from 3-month rates. Nasdaq-100 dividends estimated at 0.7% a year. A 0.1% trading cost on every trade. No taxes: the plan is designed for a retirement account such as an IRA. <span id="updated"></span></p>
+      <p><strong>How these numbers were made.</strong> Month-end prices with dividends reinvested. S&amp;P 500 history from a public daily dataset; Nasdaq-100 and recent prices from FRED (Federal Reserve Bank of St. Louis). Treasury returns rebuilt from the 10-year yield; T-bill returns from 3-month rates. Nasdaq-100 dividends estimated at 0.7% a year. A 0.1% trading cost on every trade. No taxes: the plan is designed for a retirement account such as an IRA. The 1920–1967 test uses older records, described in its own section. <span id="updated"></span></p>
       <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
     </div>
   </footer>
