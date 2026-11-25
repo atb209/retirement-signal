@@ -79,6 +79,12 @@ jobs:
         with:
           path: _site
 
+      # The publish step looks up the files uploaded just above. Asking a fraction of a second
+      # after the upload sometimes finds nothing yet ("No artifacts named github-pages were found"),
+      # which failed 4 of the first 7 runs. A short pause gives GitHub time to register the upload.
+      - name: Wait for the upload to register
+        run: sleep 30
+
       - name: Publish to GitHub Pages
         id: deploy
         uses: actions/deploy-pages@v5
