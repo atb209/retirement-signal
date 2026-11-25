@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- The <head> holds information about the page: its title, fonts, styles and scripts. -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Watch list · Retirement Signal</title>
+  <meta name="description" content="The things that could change how well the Retirement Signal works, checked automatically every weekday.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%233987e5%27/%3E%3Cpath d=%27M7 22l6-6 4 4 8-9%27 fill=%27none%27 stroke=%27white%27 stroke-width=%273%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;display=swap">
+  <!-- The ?v=... on each file is a version stamp: when it changes, browsers fetch the new file instead of an old saved copy. -->
+  <link rel="stylesheet" href="assets/style.css?v=2f9714df">
+  <!-- "defer" = download now, run once the page is ready, in this order: helpers, then this page. -->
+  <script defer src="assets/common.js?v=2f9714df"></script>
+  <script defer src="assets/watch.js?v=2f9714df"></script>
+</head>
+<body data-page="watch">
+  <header class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 16l5-5 4 4 7-8"/></svg></span><span class="brand-name">Retirement Signal</span></a>
+      <nav class="nav-links" aria-label="Main">
+        <a class="link" href="index.html">Home</a>
+        <a class="link" href="framework.html">How it works</a>
+        <a class="link" href="signal.html">Signal now</a>
+        <a class="link" href="watch.html">Watch list</a>
+        <a class="link" href="learn.html">Learn</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- A slim strip under the menu that says where things stand right now. common.js fills it in from data/signal.json. -->
+  <a class="statusbar" id="statusbar" href="signal.html" hidden>
+    <span class="wrap">
+      <span class="sb-dot" aria-hidden="true"></span>
+      <strong id="sb-state"></strong>
+      <span class="sb-detail" id="sb-detail"></span>
+      <span class="sb-note" id="sb-note"></span>
+      <span class="sb-more">See the signal →</span>
+    </span>
+  </a>
+
+  <main>
+    <header class="page-head">
+      <div class="wrap">
+        <p class="eyebrow">Watch list</p>
+        <h1>What could change how well the signal works</h1>
+        <p class="lead">The signal's rules stay fixed. This page keeps an eye on the conditions around them, so nobody has to. Every check below is rerun automatically each weekday morning.</p>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="wrap">
+        <!-- The overall reading. watch.js fills this in from data/watch.json. -->
+        <div class="status" id="watch-status" data-kind="none">
+          <div class="status-icon" id="watch-icon" aria-hidden="true"></div>
+          <div class="status-body">
+            <p class="status-label" id="watch-label">Loading the latest checks…</p>
+            <p class="status-title" id="watch-title"></p>
+            <p class="status-means" id="watch-means"></p>
+            <p class="fine" id="watch-counts"></p>
+          </div>
+        </div>
+        <p class="fine watch-key"><span class="pill good" id="key-good"></span> nothing to do <span class="pill warn" id="key-warn"></span> worth knowing, no action <span class="pill bad" id="key-bad"></span> a trigger: time to re-test the rules</p>
+      </div>
+    </section>
+
+    <!-- One block per group of checks. watch.js builds these. -->
+    <div id="watch-groups"></div>
+
+    <section class="section">
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">The triggers</p><h2>When to revisit the rules</h2><p class="intro">Nothing on this page changes the rules by itself. These are the lines that, once crossed, mean the rules should be tested again.</p></header>
+        <div class="panel table-wrap">
+          <table>
+            <thead><tr><th>Trigger</th><th>Right now</th><th>Status</th></tr></thead>
+            <tbody id="watch-triggers"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="wrap">
+        <header class="section-head"><p class="kicker">Behind the page</p><h2>How this page updates</h2></header>
+        <div class="panel">
+          <ol class="numbered">
+            <li><strong>Every weekday morning</strong> the same automated job that updates the signal reruns every check on this page.</li>
+            <li><strong>Most checks use FRED,</strong> the Federal Reserve Bank of St. Louis's free data service. Two use other public sources: a fund company's daily list of S&amp;P 500 holdings, and the Shiller PE ratio.</li>
+            <li><strong>If a source can't be reached,</strong> that one check keeps its last reading and is marked "not updated". Every other check still runs, and the signal itself is never affected.</li>
+            <li><strong>The historical tests are rerun on every update</strong> and compared with their expected results, so a change in the data or the code shows up here.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p id="data-status"></p>
+      <p>Data: FRED, Federal Reserve Bank of St. Louis; State Street or iShares fund holdings; multpl.com (Robert Shiller's data).</p>
+      <p>This site describes a personal, rules-based approach and is shared for education. It is not investment advice. Backtests describe the past and don't guarantee future results.</p>
+    </div>
+  </footer>
+</body>
+</html>
