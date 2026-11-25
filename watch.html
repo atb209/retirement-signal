@@ -84,8 +84,9 @@
         <div class="panel">
           <ol class="numbered">
             <li><strong>Every weekday morning</strong> the same automated job that updates the signal reruns every check on this page.</li>
-            <li><strong>Most checks use FRED,</strong> the Federal Reserve Bank of St. Louis's free data service. Two use other public sources: a fund company's daily list of S&amp;P 500 holdings, and the Shiller PE ratio.</li>
+            <li><strong>Most checks use FRED,</strong> the Federal Reserve Bank of St. Louis's free data service. Two also use other public sources: a fund company's daily list of S&amp;P 500 holdings, and Robert Shiller's long-run earnings data.</li>
             <li><strong>If a source can't be reached,</strong> that one check keeps its last reading and is marked "not updated". Every other check still runs, and the signal itself is never affected.</li>
+            <li><strong>The return estimate is computed here.</strong> It divides today's S&amp;P 500 price by a stored 10-year earnings figure, which is refreshed whenever its source can be reached. The card shows when that figure was last refreshed.</li>
             <li><strong>The historical tests are rerun on every update</strong> and compared with their expected results, so a change in the data or the code shows up here.</li>
           </ol>
         </div>

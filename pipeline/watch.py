@@ -8,10 +8,12 @@ shown on the Watch page (watch.html).
 Each check answers one plain question and gets one of three lights:
   good = nothing to do      warn = worth knowing      bad = a "revisit the plan" trigger is hit
 
-Most checks use FRED data that update.py already downloads. Two come from other websites
+Most checks use FRED data that update.py already downloads. Two also use other websites
 (the S&P 500's top-10 share and the Shiller PE ratio). Those can break when a site changes
-its layout, so each check is wrapped: if one fails, the page keeps the last good reading,
-marks it "not updated", and every other check still runs.
+its layout or blocks the request, so each check is wrapped: if one fails, the page keeps the
+last good reading, marks it "not updated", and every other check still runs. The Shiller PE
+check goes one step further: it stores the slow-moving earnings figure and recomputes the
+ratio from today's price, so it stays current even when its source can't be reached.
 """
 import io
 import json
@@ -44,6 +46,11 @@ INFLATION_FALLBACK = 2.5        # used only if the market's inflation estimate c
 SELF_CHECK = {"spcore": {"start": "1968-01", "end": "2025-11", "cagr": 11.9, "worst": -30.0},
               "plan7030": {"start": "1987-01", "end": "2025-11", "cagr": 14.6, "worst": -31.0}}
 SELF_CHECK_TOLERANCE = 0.3      # points a year
+
+# The S&P 500's 10-year average earnings (inflation-adjusted, in index points), as implied by a known reading:
+# S&P 500 at 7,201 on Nov 24, 2026 with a Shiller PE of about 41.1. Used until the source can be reached.
+EARNINGS_BASE_SEED = {"e10": 175.4, "as_of": "2026-11-24", "from": "seed"}
+EARNINGS_BASE_MAX_AGE_DAYS = 365
 
 # Starting values for the two website checks, used only until their first successful download.
 SEED = {
@@ -294,21 +301,42 @@ def fetch_shiller_pe():
     raise RuntimeError("; ".join(errors))
 
 
-def check_returns(inflation_expected=None, fetch=fetch_shiller_pe):
-    cape, source = fetch()
+def check_returns(sp_price, previous_base=None, inflation_expected=None, fetch=fetch_shiller_pe):
+    """The Shiller PE = today's S&P 500 price divided by its average earnings over the last 10 years.
+
+    The price moves every day; the 10-year earnings average barely moves in a month. So this check keeps a
+    stored earnings figure and divides today's price (from FRED) by it. Whenever the outside source can be
+    reached, the stored figure is refreshed from it. If the source is down or blocks the request, the ratio
+    is still current to within a point or two, because only the slow-moving half is waiting for a refresh.
+    """
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    base = previous_base or EARNINGS_BASE_SEED
+    try:
+        cape, where = fetch()
+        base = {"e10": round(sp_price / cape, 2), "as_of": today, "from": where}
+    except Exception as e:                                   # noqa: BLE001 - fall back to the stored earnings figure
+        print(f"  watch: Shiller PE source not reachable ({str(e)[:120]}); using the stored earnings figure from {base['as_of']}")
+        cape = sp_price / base["e10"]
+    base_age = (pd.Timestamp(today) - pd.Timestamp(base["as_of"])).days
     infl = INFLATION_FALLBACK if inflation_expected is None else float(inflation_expected)
     real = 100 / cape
     nominal = real + infl
     kv = [("Shiller PE (price vs. 10 years of earnings)", f"{cape:.1f}"), ("Its long-run average", "about 17"),
           ("Implied return above inflation", pct(real) + " a year"), ("Expected inflation", pct(infl) + " a year"),
-          ("Implied return before inflation", pct(nominal) + " a year")]
+          ("Implied return before inflation", pct(nominal) + " a year"),
+          ("10-year earnings figure last refreshed", pd.Timestamp(base["as_of"]).strftime("%b %Y"))]
     q = "What are stocks priced to return over the next decade?"
     text = (f"At today's prices, a standard rule of thumb (earnings divided by price) points to about {nominal:.0f}% a year "
             "before inflation, against roughly 10% a year historically. It is a rough guide, not a forecast, and it says nothing "
             "about timing. Plan around the low and middle projections, not the backtest.")
-    kind = "warn" if nominal < 7 else "good"
-    return item("returns", "Expectations", q, kind, f"About {nominal:.0f}% a year", text, kv,
-                datetime.now(timezone.utc).strftime("%Y-%m-%d"), source)
+    old = base_age > EARNINGS_BASE_MAX_AGE_DAYS
+    if old:
+        text += " The stored earnings figure is more than a year old, so this reading is rougher than usual until it is refreshed."
+    kind = "warn" if nominal < 7 or old else "good"
+    it = item("returns", "Expectations", q, kind, f"About {nominal:.0f}% a year", text, kv, today,
+              "S&P 500 price from FRED; 10-year earnings from Robert Shiller's data (via multpl.com)")
+    it["base"] = base                                         # carried forward to the next run
+    return it
 
 
 # ---------- 9. how recent sales worked out ----------
@@ -390,6 +418,12 @@ def trigger_now(i):
     return i["answer"]
 
 
+def latest_sp_price(signal):
+    """The newest S&P 500 close the site has: this month so far if available, else the last full month."""
+    pv = signal.get("provisional") or {}
+    return float(pv.get("sp_close") or signal["official"]["sp_close"])
+
+
 def load_previous():
     try:
         return {i["key"]: i for i in json.loads((DATA_DIR / "watch.json").read_text()).get("items", [])}
@@ -442,7 +476,8 @@ def build_watch(m, sig, signal, backtest, official, series, fetchers=None):
         ("safe_side", lambda: check_safe_side(m)),
         ("sales", lambda: check_sales(backtest, official)),
         ("self_test", lambda: check_self_test(m, sig, signal["data_through"]["sp500"])),
-        ("returns", lambda: check_returns(infl, f.get("shiller_pe", fetch_shiller_pe))),
+        ("returns", lambda: check_returns(latest_sp_price(signal), (previous.get("returns") or {}).get("base"), infl,
+                                          f.get("shiller_pe", fetch_shiller_pe))),
     ]
     items = []
     for key, run in checks:
