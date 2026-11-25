@@ -4,7 +4,8 @@ update.py — the script GitHub runs on a schedule. It:
   2. downloads fresh data from FRED (S&P 500, Nasdaq-100, 10-year and 3-month T-bill yields)
   3. joins them into one monthly table
   4. runs the plan's rules (rules.py) and the historical backtest
-  5. writes two files the website reads: data/backtest.json and data/signal.json
+  5. runs the watch-list checks (watch.py)
+  6. writes three files the website reads: data/backtest.json, data/signal.json and data/watch.json
 
 Usage (from the pipeline folder):  python update.py
 Needs the FRED_API_KEY environment variable (see README).
@@ -18,6 +19,7 @@ import pandas as pd
 
 import fred
 import rules
+import watch
 
 HERE = Path(__file__).parent
 DATA_DIR = HERE.parent / "data"
@@ -309,6 +311,15 @@ def build_signal(m, sig, official, sp_daily, dgs10, dtb3):
     }
 
 
+def optional_series(series_id, start):
+    """Download a series the watch list uses. If it fails, return None so the signal itself still updates."""
+    try:
+        return fred.get_series(series_id, start)
+    except (SystemExit, Exception) as e:      # fred.py stops the run on failure; here a miss only skips one watch-list check
+        print(f"  {series_id}: not available for the watch list ({e})")
+        return None
+
+
 # ---------- main ----------
 
 def main():
@@ -325,6 +336,15 @@ def main():
     dgs10 = fred.get_series("DGS10", recent_start)
     dtb3 = fred.get_series("DTB3", recent_start)
     usrec = fred.get_series("USREC", "1960-01-01")     # official US recession months (NBER), for the charts
+    # Extra series for the watch list only. None of these can stop the signal from updating.
+    five_years_ago = (datetime.now() - timedelta(days=1830)).strftime("%Y-%m-%d")
+    watch_series = {
+        "fed_upper": optional_series("DFEDTARU", recent_start),    # the Fed's target rate (upper end)
+        "unrate": optional_series("UNRATE", five_years_ago),       # unemployment rate
+        "baa": optional_series("BAA", five_years_ago),             # yield on riskier investment-grade company bonds
+        "aaa": optional_series("AAA", five_years_ago),             # yield on the safest company bonds
+        "breakeven": optional_series("T10YIE", recent_start),      # the bond market's 10-year inflation estimate
+    }
 
     print("Building the monthly table")
     m, closed = build_monthly(hist, sp_daily, ndx_daily, gs10, tb3)
@@ -355,8 +375,11 @@ def main():
         "tb3ms": to_months(tb3).index[-1],
     }
 
+    print("Running the watch-list checks")
+    watch_list = watch.build_watch(m, sig, signal, backtest, official, watch_series)
+
     DATA_DIR.mkdir(exist_ok=True)
-    for name, obj in (("backtest.json", backtest), ("signal.json", signal)):
+    for name, obj in (("backtest.json", backtest), ("signal.json", signal), ("watch.json", watch_list)):
         (DATA_DIR / name).write_text(json.dumps(obj, separators=(",", ":")))
         print(f"  Wrote data/{name}")
 
@@ -365,6 +388,8 @@ def main():
     if pv:
         print(f"  Provisional ({pv['as_of_label']}): would be '{pv['would_be']}'; "
               f"S&P {pv['sp_close']:,.0f} vs needed {pv['level_to_beat']:,.0f}")
+    w = watch_list["summary"]
+    print(f"  Watch list: {w['title']}  ({w['green']} green, {w['amber']} amber, {w['triggers_hit']} triggers hit, {w['not_updated']} not updated)")
     verification_report(ready, sig)
 
 
